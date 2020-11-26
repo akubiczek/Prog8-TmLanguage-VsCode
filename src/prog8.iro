@@ -1,0 +1,306 @@
+#################################################################
+## Iro
+################################################################ 
+##
+## * Press Ctrl + '+'/'-' To Zoom in
+## * Press Ctrl + S to save and recalculate... 
+## * Documents are saved to web storage.
+## * Only one save slot supported.
+## * Matches cannot span lines.
+## * Unicode chars must be defined in \u0000 to \uffff format.
+## * All matches must be contained by a single group ( ... )
+## * Look behinds not permitted, (?<= or (?<!
+## * Look forwards are permitted (?= or (?!
+## * Constants are defined as __my_const = (......)
+## * The \= format allows unescaped regular expressions
+## * Constants referenced by match \= $${__my_const}
+## * Constants can reference other constants
+## * You are free to delete all the default scopes.
+## * Twitter : ainslec , Web: http://eeyo.io/iro
+##
+################################################################
+
+name                   = prog8
+file_extensions []     = p8, prog8;
+
+################################################################
+## Constants
+################################################################
+
+__MY_CONSTANT \= (\b[a-z][a-z0-9]*)
+
+################################################################
+## Styles
+################################################################
+
+styles [] {
+
+.comment.line : style {
+   color                 = light_green
+   italic                = true
+   ace_scope             = comment
+   textmate_scope        = comment.line
+   pygments_scope        = Comment
+}
+
+.keyword.control : style {
+   color     = cyan
+   ace_scope             = keyword
+   textmate_scope        = keyword.control
+   pygments_scope        = Keyword
+}
+
+.keyword.operator : style {
+   color     = cyan
+   ace_scope             = keyword
+   textmate_scope        = keyword.operator
+   pygments_scope        = Keyword
+}
+
+.constant.language : style {
+   color     = purple
+   ace_scope             = keyword
+   textmate_scope        = constant.language
+   pygments_scope        = Keyword
+}
+
+.storage.type : style {
+   color     = brown
+   ace_scope             = keyword
+   textmate_scope        = storage.type
+   pygments_scope        = Keyword
+}
+
+.storage.modifier : style {
+   color     = brown
+   ace_scope             = keyword
+   textmate_scope        = storage.modifier
+   pygments_scope        = Keyword
+}
+
+.entity.name.section : style {
+   color                 = grey
+   ace_scope             = text
+   textmate_scope        = entity.name.section
+   pygments_scope        = String
+}
+
+.entity.name.function : style {
+   color                 = green
+   ace_scope             = text
+   textmate_scope        = entity.name.function
+   pygments_scope        = String
+}
+
+.numeric : style {
+   color                 = gold
+   ace_scope             = constant.numeric
+   textmate_scope        = constant.numeric
+   pygments_scope        = Number
+}
+
+.punctuation : style {
+   color     = red_2
+   ace_scope             = punctuation
+   textmate_scope        = punctuation
+   pygments_scope        = Punctuation
+}
+
+.text : style {
+   color                 = brown
+   ace_scope             = text
+   textmate_scope        = text
+   pygments_scope        = String
+}
+
+.meta.directive : style {
+   color                 = pink
+   ace_scope             = text
+   textmate_scope        = meta.directive
+   pygments_scope        = String
+}
+
+.keyword.control.directive : style {
+   color                 = pink
+   ace_scope             = text
+   textmate_scope        = .keyword.control.directive
+   pygments_scope        = String
+}
+
+.illegal : style {
+   color                 = white
+   background_color      = red
+   ace_scope             = invalid
+   textmate_scope        = invalid
+   pygments_scope        = Generic.Error
+}
+
+.support.function  : style {
+   color                 = yellow
+   ace_scope             = invalid
+   textmate_scope        = support.function
+   pygments_scope        = Generic.Error
+}
+
+}
+
+#################################################
+## Parse contexts
+#################################################
+
+contexts [] {
+
+##############################################
+## Main Context - Entry point context
+##############################################
+
+main : context {
+
+   : include "numeric" ;
+
+   : inline_push {
+      regex          \= (\{)
+      styles []       = .punctuation;
+      : pop {  
+         regex       \= (\})
+         styles []    = .punctuation;
+      }
+      : include "main" ;
+   }
+
+   : inline_push {
+      regex          \= (\")
+      styles []       = .punctuation;
+      default_style   = .text
+      : pop {
+         regex       \= (\")
+         styles []    = .punctuation;
+      }
+   }
+   
+   : inline_push {
+      regex          \= (\()
+      styles []       = .punctuation;
+      : pop {
+         regex       \= (\))
+         styles []    = .punctuation;
+      }
+      : include "numeric" ;
+      : include "keywords";
+      : include "storage";
+      : pattern {
+         regex       \= (,)
+         styles []    = .punctuation;
+      }
+   }
+
+   : pattern {
+      regex          \= (\;.+)
+      styles []       = .comment.line;
+   }
+   
+   : inline_push {
+      regex          \= (\bif\b)
+      styles []       = .keyword.control;
+      : pop {
+         regex       \= (\))
+         styles []    = .punctuation;
+      }      
+      : include "numeric" ;
+      : include "storage"; 
+      : include "constant";
+   }   
+   
+   : include "keywords";
+   : include "storage";
+   : include "constant";
+   : include "support";
+
+   : pattern {
+      regex          \= (^\s*)(%)(\w+)
+      styles []       = .punctuation, .meta.directive, .keyword.control.directive;
+   }
+   
+   : inline_push {
+      regex          \= (\w+)\s*(\()
+      styles []       = .entity.name.function, .punctuation;
+
+      : pop {
+         regex       \= (\))
+         styles []    = .punctuation;
+      }
+      : include "numeric" ;
+      : include "storage"; 
+      : include "constant";
+   }   
+   
+   : pattern {
+      regex          \= (\b\w+\.)
+      styles []       = .entity.name.section;
+   }
+   
+   : pattern {
+      regex          \= (\b\w+\s*)(\{)
+      styles []       = .entity.name.section, .punctuation;
+   }    
+
+}
+
+#################################################
+## End of Contexts
+#################################################
+
+keywords : context {
+   : pattern {
+      regex          \= (\b(sub|for|in|to|do|while|until|repeat|else|when|return)\b)
+      styles []       = .keyword.control;
+   }
+   
+   : pattern {
+      regex          \= (\b(and|or)\b)
+      styles []       = .keyword.operator;
+   }   
+}
+
+storage : context {
+   
+   : pattern {
+      regex          \= (\b(void|ubyte|byte|word|uword|float|str)\b)
+      styles []       = .storage.type;
+   }
+   
+   : pattern {
+      regex          \= (\b(const)\b)
+      styles []       = .storage.modifier;
+   }   
+}
+
+constant : context {
+   : pattern {
+      regex          \= (true|false)
+      styles []       = .constant.language;
+   } 
+}
+
+support : context {
+   : pattern {
+      regex          \= (\b(abs|atan|ceil|cos|cos8u|cos8|cos16u|cos16|deg|floor|ln|log2|rad|round|sin|sgn|sin8u|sin8|sin16u|sin16|sqrt16|sqrt|tan|any|all|len|max|min|reverse|sum|sort|memcopy|memset|memsetw|leftstr|rightstr|strlen|strcmp|substr|exit|lsb|msb|mkword|rnd|rndw|rndf|rol|rol2|ror|ror2|rsave|rrestore|read_flags|sizeof|set_carry|clear_carry|set_irqd|clear_irqd|swap)\b)
+      styles []       = .support.function;
+   }
+}
+
+
+
+###########################################
+## Numeric Context
+###########################################
+
+numeric : context {
+   : pattern {
+      regex          \= (\b\d+)
+      styles []       = .numeric;
+   }
+}
+
+   
+}

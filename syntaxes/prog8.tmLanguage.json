@@ -1,0 +1,249 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Prog8",
+  "patterns": [
+    {
+      "include": "#main"
+    }
+  ],
+  "scopeName": "source.prog8",
+  "repository": {
+    "main": {
+      "patterns": [
+        {
+          "include": "#numeric"
+        },
+        {
+          "begin": "(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#main__1"
+            }
+          ],
+          "end": "(\\})",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "begin": "(\\\")",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          },
+          "contentName": "text.prog8",
+          "end": "(\\\")",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "begin": "(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#main__3"
+            }
+          ],
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "match": "(\\;.+)",
+          "name": "comment.line.prog8"
+        },
+        {
+          "begin": "(\\bif\\b)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.prog8"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#main__4"
+            }
+          ],
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#storage"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#support"
+        },
+        {
+          "match": "(^\\s*%\\w+)",
+          "name": "meta.prog8"
+        },
+        {
+          "begin": "(\\w+)\\s*(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.function.prog8"
+            },
+            "2": {
+              "name": "punctuation.prog8"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#main__5"
+            }
+          ],
+          "end": "(\\))",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "match": "(\\b\\w+\\.)",
+          "name": "entity.name.section.prog8"
+        },
+        {
+          "match": "(\\b\\w+\\s*)(\\{)",
+          "captures": {
+            "1": {
+              "name": "entity.name.section.prog8"
+            },
+            "2": {
+              "name": "punctuation.prog8"
+            }
+          }
+        }
+      ]
+    },
+    "constant": {
+      "patterns": [
+        {
+          "match": "(true|false)",
+          "name": "constant.language.prog8"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "(\\b(sub|for|in|to|do|while|until|repeat|else|when|return)\\b)",
+          "name": "keyword.control.prog8"
+        },
+        {
+          "match": "(\\b(and|or)\\b)",
+          "name": "keyword.operator.prog8"
+        }
+      ]
+    },
+    "main__1": {
+      "patterns": [
+        {
+          "include": "#main"
+        }
+      ]
+    },
+    "main__2": {
+      "patterns": []
+    },
+    "main__3": {
+      "patterns": [
+        {
+          "include": "#numeric"
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#storage"
+        },
+        {
+          "match": "(,)",
+          "name": "punctuation.prog8"
+        }
+      ]
+    },
+    "main__4": {
+      "patterns": [
+        {
+          "include": "#numeric"
+        },
+        {
+          "include": "#storage"
+        },
+        {
+          "include": "#constant"
+        }
+      ]
+    },
+    "main__5": {
+      "patterns": [
+        {
+          "include": "#numeric"
+        },
+        {
+          "include": "#storage"
+        },
+        {
+          "include": "#constant"
+        }
+      ]
+    },
+    "numeric": {
+      "patterns": [
+        {
+          "match": "(\\b\\d+)",
+          "name": "constant.numeric.prog8"
+        }
+      ]
+    },
+    "storage": {
+      "patterns": [
+        {
+          "match": "(\\b(void|ubyte|byte|word|uword|float|str)\\b)",
+          "name": "storage.type.prog8"
+        },
+        {
+          "match": "(\\b(const)\\b)",
+          "name": "storage.modifier.prog8"
+        }
+      ]
+    },
+    "support": {
+      "patterns": [
+        {
+          "match": "(\\b(abs|atan|ceil|cos|cos8u|cos8|cos16u|cos16|deg|floor|ln|log2|rad|round|sin|sgn|sin8u|sin8|sin16u|sin16|sqrt16|sqrt|tan|any|all|len|max|min|reverse|sum|sort|memcopy|memset|memsetw|leftstr|rightstr|strlen|strcmp|substr|exit|lsb|msb|mkword|rnd|rndw|rndf|rol|rol2|ror|ror2|rsave|rrestore|read_flags|sizeof|set_carry|clear_carry|set_irqd|clear_irqd|swap)\\b)",
+          "name": "support.function.prog8"
+        }
+      ]
+    }
+  }
+}

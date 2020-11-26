@@ -1,0 +1,25 @@
+{
+    "name": "prog8-lang",
+    "displayName": "Prog8 Lang",
+    "description": "Syntax highlighting for Prog8 lang",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.51.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "prog8",
+            "aliases": ["Prog8", "prog8"],
+            "extensions": [".p8",".prog8"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "prog8",
+            "scopeName": "source.prog8",
+            "path": "./syntaxes/prog8.tmLanguage.json"
+        }]
+    }
+}
