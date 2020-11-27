@@ -71,25 +71,6 @@
           "name": "comment.line.prog8"
         },
         {
-          "begin": "(\\bif\\b)",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.control.prog8"
-            }
-          },
-          "patterns": [
-            {
-              "include": "#main__4"
-            }
-          ],
-          "end": "(\\))",
-          "endCaptures": {
-            "1": {
-              "name": "punctuation.prog8"
-            }
-          }
-        },
-        {
           "include": "#keywords"
         },
         {
@@ -102,22 +83,35 @@
           "include": "#support"
         },
         {
-          "match": "(^\\s*%\\w+)",
-          "name": "meta.prog8"
+          "match": "(^\\s*)(%)(\\w+)",
+          "captures": {
+            "1": {
+              "name": "punctuation.prog8"
+            },
+            "2": {
+              "name": "meta.directive.prog8"
+            },
+            "3": {
+              "name": "keyword.control.directive.prog8"
+            }
+          }
         },
         {
-          "begin": "(\\w+)\\s*(\\()",
+          "begin": "(\\w+)(\\s*)(\\()",
           "beginCaptures": {
             "1": {
               "name": "entity.name.function.prog8"
             },
             "2": {
               "name": "punctuation.prog8"
+            },
+            "3": {
+              "name": "punctuation.prog8"
             }
           },
           "patterns": [
             {
-              "include": "#main__5"
+              "include": "#main__4"
             }
           ],
           "end": "(\\))",
@@ -141,6 +135,9 @@
               "name": "punctuation.prog8"
             }
           }
+        },
+        {
+          "include": "#variable"
         }
       ]
     },
@@ -155,7 +152,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "(\\b(sub|for|in|to|do|while|until|repeat|else|when|return)\\b)",
+          "match": "(\\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto)\\b)",
           "name": "keyword.control.prog8"
         },
         {
@@ -186,6 +183,20 @@
           "include": "#storage"
         },
         {
+          "match": "(\\w+)(\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.prog8"
+            },
+            "2": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
+          "include": "#variable"
+        },
+        {
           "match": "(,)",
           "name": "punctuation.prog8"
         }
@@ -194,6 +205,17 @@
     "main__4": {
       "patterns": [
         {
+          "match": "(\\w+)(\\()",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.prog8"
+            },
+            "2": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
           "include": "#numeric"
         },
         {
@@ -201,19 +223,9 @@
         },
         {
           "include": "#constant"
-        }
-      ]
-    },
-    "main__5": {
-      "patterns": [
-        {
-          "include": "#numeric"
         },
         {
-          "include": "#storage"
-        },
-        {
-          "include": "#constant"
+          "include": "#variable"
         }
       ]
     },
@@ -242,6 +254,14 @@
         {
           "match": "(\\b(abs|atan|ceil|cos|cos8u|cos8|cos16u|cos16|deg|floor|ln|log2|rad|round|sin|sgn|sin8u|sin8|sin16u|sin16|sqrt16|sqrt|tan|any|all|len|max|min|reverse|sum|sort|memcopy|memset|memsetw|leftstr|rightstr|strlen|strcmp|substr|exit|lsb|msb|mkword|rnd|rndw|rndf|rol|rol2|ror|ror2|rsave|rrestore|read_flags|sizeof|set_carry|clear_carry|set_irqd|clear_irqd|swap)\\b)",
           "name": "support.function.prog8"
+        }
+      ]
+    },
+    "variable": {
+      "patterns": [
+        {
+          "match": "(\\b\\w+\\b)",
+          "name": "variable.other.prog8"
         }
       ]
     }

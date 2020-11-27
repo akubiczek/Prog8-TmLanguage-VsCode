@@ -106,6 +106,13 @@ styles [] {
    pygments_scope        = Punctuation
 }
 
+.variable.other : style {
+   color     = #AAAAFF
+   ace_scope             = punctuation
+   textmate_scope        = variable.other
+   pygments_scope        = Punctuation
+}
+
 .text : style {
    color                 = brown
    ace_scope             = text
@@ -123,7 +130,7 @@ styles [] {
 .keyword.control.directive : style {
    color                 = pink
    ace_scope             = text
-   textmate_scope        = .keyword.control.directive
+   textmate_scope        = keyword.control.directive
    pygments_scope        = String
 }
 
@@ -189,6 +196,11 @@ main : context {
       : include "keywords";
       : include "storage";
       : pattern {
+         regex          \= (\w+)(\()
+         styles []       = .entity.name.function, .punctuation;
+      }      
+      : include "variable";
+      : pattern {
          regex       \= (,)
          styles []    = .punctuation;
       }
@@ -198,18 +210,6 @@ main : context {
       regex          \= (\;.+)
       styles []       = .comment.line;
    }
-   
-   : inline_push {
-      regex          \= (\bif\b)
-      styles []       = .keyword.control;
-      : pop {
-         regex       \= (\))
-         styles []    = .punctuation;
-      }      
-      : include "numeric" ;
-      : include "storage"; 
-      : include "constant";
-   }   
    
    : include "keywords";
    : include "storage";
@@ -222,16 +222,22 @@ main : context {
    }
    
    : inline_push {
-      regex          \= (\w+)\s*(\()
-      styles []       = .entity.name.function, .punctuation;
+      regex          \= (\w+)(\s*)(\()
+      styles []       = .entity.name.function, .punctuation, .punctuation;
 
       : pop {
          regex       \= (\))
          styles []    = .punctuation;
       }
+      
+      : pattern {
+         regex          \= (\w+)(\()
+         styles []       = .entity.name.function, .punctuation;
+      }        
       : include "numeric" ;
       : include "storage"; 
       : include "constant";
+      : include "variable";
    }   
    
    : pattern {
@@ -243,16 +249,20 @@ main : context {
       regex          \= (\b\w+\s*)(\{)
       styles []       = .entity.name.section, .punctuation;
    }    
-
+   
+   : include "variable";
 }
 
-#################################################
-## End of Contexts
-#################################################
+variable : context {
+   : pattern {
+      regex          \= (\b\w+\b)
+      styles []       = .variable.other;
+   }   
+}
 
 keywords : context {
    : pattern {
-      regex          \= (\b(sub|for|in|to|do|while|until|repeat|else|when|return)\b)
+      regex          \= (\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto)\b)
       styles []       = .keyword.control;
    }
    
