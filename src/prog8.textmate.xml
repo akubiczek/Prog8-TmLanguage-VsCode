@@ -29,8 +29,115 @@
       <array> 
         <dict>
           <key>include</key>
-          <string>#numeric</string>
+          <string>#comment</string>
         </dict>
+        <dict>
+          <key>include</key>
+          <string>#meta</string>
+        </dict>
+        <dict>
+          <key>begin</key>
+          <string>(^\s*\w+\s*)(\{)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>entity.name.section.prog8</string>
+            </dict>
+            <key>2</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#main__1</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\})</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+        </dict>
+        <dict>
+          <key>begin</key>
+          <string>(^\s*\w+\s*)(\$[\da-fA-F]+\s*)(\{)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>entity.name.section.prog8</string>
+            </dict>
+            <key>2</key>
+            <dict>
+              <key>name</key>
+              <string>constant.numeric.prog8</string>
+            </dict>
+            <key>3</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#main__2</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\})</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+        </dict>
+       </array>
+    </dict>
+    <key>comment</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\;.+)</string>
+          <key>name</key>
+          <string>comment.line.prog8</string>
+        </dict>
+       </array>
+    </dict>
+    <key>constant</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(true|false)</string>
+          <key>name</key>
+          <string>constant.language.prog8</string>
+        </dict>
+       </array>
+    </dict>
+    <key>general</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
         <dict>
           <key>begin</key>
           <string>(\{)</string>
@@ -46,7 +153,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#main__1</string>
+              <string>#general__1</string>
             </dict>
            </array>
           <key>end</key>
@@ -99,7 +206,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#main__3</string>
+              <string>#general__3</string>
             </dict>
            </array>
           <key>end</key>
@@ -114,10 +221,12 @@
           </dict>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(\;.+)</string>
-          <key>name</key>
-          <string>comment.line.prog8</string>
+          <key>include</key>
+          <string>#comment</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#numeric</string>
         </dict>
         <dict>
           <key>include</key>
@@ -136,26 +245,8 @@
           <string>#support</string>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(^\s*)(%)(\w+)</string>
-          <key>captures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>punctuation.prog8</string>
-            </dict>
-            <key>2</key>
-            <dict>
-              <key>name</key>
-              <string>meta.directive.prog8</string>
-            </dict>
-            <key>3</key>
-            <dict>
-              <key>name</key>
-              <string>keyword.control.directive.prog8</string>
-            </dict>
-          </dict>
+          <key>include</key>
+          <string>#meta</string>
         </dict>
         <dict>
           <key>begin</key>
@@ -182,7 +273,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#main__4</string>
+              <string>#general__4</string>
             </dict>
            </array>
           <key>end</key>
@@ -203,37 +294,44 @@
           <string>entity.name.section.prog8</string>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(^\s*\w+\s*)(\{)</string>
-          <key>captures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>entity.name.section.prog8</string>
-            </dict>
-            <key>2</key>
-            <dict>
-              <key>name</key>
-              <string>punctuation.prog8</string>
-            </dict>
-          </dict>
-        </dict>
-        <dict>
           <key>include</key>
           <string>#variable</string>
         </dict>
        </array>
     </dict>
-    <key>constant</key>
+    <key>general__1</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
-          <key>match</key>
-          <string>(true|false)</string>
-          <key>name</key>
-          <string>constant.language.prog8</string>
+          <key>include</key>
+          <string>#general</string>
+        </dict>
+       </array>
+    </dict>
+    <key>general__2</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+       </array>
+    </dict>
+    <key>general__3</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>include</key>
+          <string>#general</string>
+        </dict>
+       </array>
+    </dict>
+    <key>general__4</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>include</key>
+          <string>#general</string>
         </dict>
        </array>
     </dict>
@@ -261,7 +359,7 @@
       <array> 
         <dict>
           <key>include</key>
-          <string>#main</string>
+          <string>#general</string>
         </dict>
        </array>
     </dict>
@@ -269,89 +367,37 @@
     <dict>
       <key>patterns</key>
       <array> 
-       </array>
-    </dict>
-    <key>main__3</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
         <dict>
           <key>include</key>
-          <string>#numeric</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#keywords</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#storage</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>(\w+)(\()</string>
-          <key>captures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>entity.name.function.prog8</string>
-            </dict>
-            <key>2</key>
-            <dict>
-              <key>name</key>
-              <string>punctuation.prog8</string>
-            </dict>
-          </dict>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#variable</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>(,)</string>
-          <key>name</key>
-          <string>punctuation.prog8</string>
+          <string>#general</string>
         </dict>
        </array>
     </dict>
-    <key>main__4</key>
+    <key>meta</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>match</key>
-          <string>(\w+)(\()</string>
+          <string>(^\s*)(%)([a-zA-Z]+)</string>
           <key>captures</key>
           <dict>
             <key>1</key>
             <dict>
               <key>name</key>
-              <string>entity.name.function.prog8</string>
+              <string>punctuation.prog8</string>
             </dict>
             <key>2</key>
             <dict>
               <key>name</key>
-              <string>punctuation.prog8</string>
+              <string>meta.directive.prog8</string>
+            </dict>
+            <key>3</key>
+            <dict>
+              <key>name</key>
+              <string>keyword.control.directive.prog8</string>
             </dict>
           </dict>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#numeric</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#storage</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#constant</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#variable</string>
         </dict>
        </array>
     </dict>
@@ -367,6 +413,12 @@
         </dict>
         <dict>
           <key>match</key>
+          <string>(\-?\d+\.\d+e?\d+)</string>
+          <key>name</key>
+          <string>constant.numeric.prog8</string>
+        </dict>
+        <dict>
+          <key>match</key>
           <string>(\$[\da-fA-F]+)</string>
           <key>name</key>
           <string>constant.numeric.prog8</string>
@@ -374,6 +426,12 @@
         <dict>
           <key>match</key>
           <string>(\%[0-1]+)</string>
+          <key>name</key>
+          <string>constant.numeric.prog8</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\&apos;.\&apos;)</string>
           <key>name</key>
           <string>constant.numeric.prog8</string>
         </dict>

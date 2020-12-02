@@ -163,7 +163,31 @@ contexts [] {
 
 main : context {
 
-   : include "numeric" ;
+   : include "comment";
+   : include "meta";
+
+   : inline_push {
+      regex          \= (^\s*\w+\s*)(\{)
+      styles []       = .entity.name.section, .punctuation;
+      : pop {  
+         regex       \= (\})
+         styles []    = .punctuation;
+      }
+      : include "general" ;
+   }
+   
+   : inline_push {
+      regex          \= (^\s*\w+\s*)(\$[\da-fA-F]+\s*)(\{)
+      styles []       = .entity.name.section, .numeric, .punctuation;
+      : pop {  
+         regex       \= (\})
+         styles []    = .punctuation;
+      }
+      : include "general" ;
+   }   
+}   
+
+general : context {   
 
    : inline_push {
       regex          \= (\{)
@@ -172,9 +196,9 @@ main : context {
          regex       \= (\})
          styles []    = .punctuation;
       }
-      : include "main" ;
+      : include "general" ;
    }
-
+ 
    : inline_push {
       regex          \= (\")
       styles []       = .punctuation;
@@ -192,34 +216,16 @@ main : context {
          regex       \= (\))
          styles []    = .punctuation;
       }
-      : include "numeric" ;
-      : include "keywords";
-      : include "storage";
-      : pattern {
-         regex          \= (\w+)(\()
-         styles []       = .entity.name.function, .punctuation;
-      }      
-      : include "variable";
-      : pattern {
-         regex       \= (,)
-         styles []    = .punctuation;
-      }
+      : include "general" ;
    }
 
-   : pattern {
-      regex          \= (\;.+)
-      styles []       = .comment.line;
-   }
-   
+   : include "comment";
+   : include "numeric" ;
    : include "keywords";
    : include "storage";
    : include "constant";
    : include "support";
-
-   : pattern {
-      regex          \= (^\s*)(%)(\w+)
-      styles []       = .punctuation, .meta.directive, .keyword.control.directive;
-   }
+   : include "meta";
    
    : inline_push {
       regex          \= (\w+)(\s*)(\()
@@ -229,15 +235,7 @@ main : context {
          regex       \= (\))
          styles []    = .punctuation;
       }
-      
-      : pattern {
-         regex          \= (\w+)(\()
-         styles []       = .entity.name.function, .punctuation;
-      }        
-      : include "numeric" ;
-      : include "storage"; 
-      : include "constant";
-      : include "variable";
+      : include "general";
    }   
    
    : pattern {
@@ -245,12 +243,14 @@ main : context {
       styles []       = .entity.name.section;
    }
    
-   : pattern {
-      regex          \= (^\s*\w+\s*)(\{)
-      styles []       = .entity.name.section, .punctuation;
-   }    
-   
    : include "variable";
+}
+
+comment : context {
+   : pattern {
+      regex          \= (\;.+)
+      styles []       = .comment.line;
+   }
 }
 
 variable : context {
@@ -299,6 +299,13 @@ support : context {
    }
 }
 
+meta : context {
+   : pattern {
+      regex          \= (^\s*)(%)([a-zA-Z]+)
+      styles []       = .punctuation, .meta.directive, .keyword.control.directive;
+   }
+}
+
 
 
 ###########################################
@@ -311,6 +318,10 @@ numeric : context {
       styles []       = .numeric;
    }
    : pattern {
+      regex          \= (\-?\d+\.\d+e?\d+)
+      styles []       = .numeric;
+   }
+   : pattern {
       regex          \= (\$[\da-fA-F]+)
       styles []       = .numeric;
    }
@@ -318,7 +329,10 @@ numeric : context {
       regex          \= (\%[0-1]+)
       styles []       = .numeric;
    }
+   : pattern {
+      regex          \= (\'.\')
+      styles []       = .numeric;
+   }   
 }
 
-   
 }
