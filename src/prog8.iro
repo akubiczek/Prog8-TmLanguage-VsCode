@@ -246,7 +246,7 @@ main : context {
    }
    
    : pattern {
-      regex          \= (\b\w+\s*)(\{)
+      regex          \= (^\s*\w+\s*)(\{)
       styles []       = .entity.name.section, .punctuation;
    }    
    
@@ -262,7 +262,7 @@ variable : context {
 
 keywords : context {
    : pattern {
-      regex          \= (\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto)\b)
+      regex          \= (\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto|asmsub|clobbers)\b)
       styles []       = .keyword.control;
    }
    
@@ -308,6 +308,14 @@ support : context {
 numeric : context {
    : pattern {
       regex          \= (\b\d+)
+      styles []       = .numeric;
+   }
+   : pattern {
+      regex          \= (\$[\da-fA-F]+)
+      styles []       = .numeric;
+   }
+   : pattern {
+      regex          \= (\%[0-1]+)
       styles []       = .numeric;
    }
 }

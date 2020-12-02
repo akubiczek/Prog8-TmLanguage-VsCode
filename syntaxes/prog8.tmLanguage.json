@@ -126,7 +126,7 @@
           "name": "entity.name.section.prog8"
         },
         {
-          "match": "(\\b\\w+\\s*)(\\{)",
+          "match": "(^\\s*\\w+\\s*)(\\{)",
           "captures": {
             "1": {
               "name": "entity.name.section.prog8"
@@ -152,7 +152,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "(\\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto)\\b)",
+          "match": "(\\b(sub|if|if_cs|if_cc|if_eq|if_ne|if_pl|if_mi|if_vs|if_vc|if_z|if_nz|if_pos|if_neg|for|in|to|step|do|while|until|repeat|else|when|return|break|as|goto|asmsub|clobbers)\\b)",
           "name": "keyword.control.prog8"
         },
         {
@@ -234,6 +234,14 @@
         {
           "match": "(\\b\\d+)",
           "name": "constant.numeric.prog8"
+        },
+        {
+          "match": "(\\$[\\da-fA-F]+)",
+          "name": "constant.numeric.prog8"
+        },
+        {
+          "match": "(\\%[0-1]+)",
+          "name": "constant.numeric.prog8"
         }
       ]
     },
@@ -265,5 +273,5 @@
         }
       ]
     }
-  }
+  }  
 }
