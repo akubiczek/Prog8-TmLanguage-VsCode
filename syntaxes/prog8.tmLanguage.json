@@ -65,6 +65,14 @@
         }
       ]
     },
+    "assembler": {
+      "patterns": [
+        {
+          "match": "(\\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya|bra|brl|cop|jml|jsl|mvn|mvp|pea|pei|per|phb|phd|phk|phx|phy|plb|pld|plx|ply|rep|rtl|sep|stp|stz|tcd|tcs|tdc|trb|tsb|tsc|txy|tyx|wai|wdm|xba|xce|ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA|BRA|BRL|COP|JML|JSL|MVN|MVP|PEA|PEI|PER|PHB|PHD|PHK|PHX|PHY|PLB|PLD|PLX|PLY|REP|RTL|SEP|STP|STZ|TCD|TCS|TDC|TRB|TSB|TSC|TXY|TYX|WAI|WDM|XBA|XCE)\\b)",
+          "name": "support.function.prog8"
+        }
+      ]
+    },
     "comment": {
       "patterns": [
         {
@@ -84,6 +92,31 @@
     "general": {
       "patterns": [
         {
+          "begin": "(^\\s*)(\\%asm)(\\s*{{)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            },
+            "2": {
+              "name": "keyword.control.directive.prog8"
+            },
+            "3": {
+              "name": "punctuation.prog8"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#general__1"
+            }
+          ],
+          "end": "(}})",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.prog8"
+            }
+          }
+        },
+        {
           "begin": "(\\{)",
           "beginCaptures": {
             "1": {
@@ -92,7 +125,7 @@
           },
           "patterns": [
             {
-              "include": "#general__1"
+              "include": "#general__2"
             }
           ],
           "end": "(\\})",
@@ -126,7 +159,7 @@
           },
           "patterns": [
             {
-              "include": "#general__3"
+              "include": "#general__4"
             }
           ],
           "end": "(\\))",
@@ -155,6 +188,9 @@
           "include": "#support"
         },
         {
+          "include": "#label"
+        },
+        {
           "include": "#meta"
         },
         {
@@ -172,7 +208,7 @@
           },
           "patterns": [
             {
-              "include": "#general__4"
+              "include": "#general__5"
             }
           ],
           "end": "(\\))",
@@ -183,8 +219,7 @@
           }
         },
         {
-          "match": "(\\b\\w+\\.)",
-          "name": "entity.name.section.prog8"
+          "include": "#section"
         },
         {
           "include": "#variable"
@@ -194,21 +229,43 @@
     "general__1": {
       "patterns": [
         {
-          "include": "#general"
+          "include": "#assembler"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#numeric"
+        },
+        {
+          "include": "#label"
+        },
+        {
+          "include": "#section"
+        },
+        {
+          "include": "#variable"
         }
       ]
     },
     "general__2": {
-      "patterns": []
-    },
-    "general__3": {
       "patterns": [
         {
           "include": "#general"
         }
       ]
     },
+    "general__3": {
+      "patterns": []
+    },
     "general__4": {
+      "patterns": [
+        {
+          "include": "#general"
+        }
+      ]
+    },
+    "general__5": {
       "patterns": [
         {
           "include": "#general"
@@ -224,6 +281,14 @@
         {
           "match": "(\\b(and|or)\\b)",
           "name": "keyword.operator.prog8"
+        }
+      ]
+    },
+    "label": {
+      "patterns": [
+        {
+          "match": "(^\\s*\\w+\\:)",
+          "name": "entity.name.label.prog8"
         }
       ]
     },
@@ -283,6 +348,14 @@
         }
       ]
     },
+    "section": {
+      "patterns": [
+        {
+          "match": "(\\b\\w+\\.)",
+          "name": "entity.name.section.prog8"
+        }
+      ]
+    },
     "storage": {
       "patterns": [
         {
@@ -311,5 +384,5 @@
         }
       ]
     }
-  }  
+  } 
 }

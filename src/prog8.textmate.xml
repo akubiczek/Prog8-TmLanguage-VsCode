@@ -110,6 +110,18 @@
         </dict>
        </array>
     </dict>
+    <key>assembler</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya|bra|brl|cop|jml|jsl|mvn|mvp|pea|pei|per|phb|phd|phk|phx|phy|plb|pld|plx|ply|rep|rtl|sep|stp|stz|tcd|tcs|tdc|trb|tsb|tsc|txy|tyx|wai|wdm|xba|xce|ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA|BRA|BRL|COP|JML|JSL|MVN|MVP|PEA|PEI|PER|PHB|PHD|PHK|PHX|PHY|PLB|PLD|PLX|PLY|REP|RTL|SEP|STP|STZ|TCD|TCS|TDC|TRB|TSB|TSC|TXY|TYX|WAI|WDM|XBA|XCE)\b)</string>
+          <key>name</key>
+          <string>support.function.prog8</string>
+        </dict>
+       </array>
+    </dict>
     <key>comment</key>
     <dict>
       <key>patterns</key>
@@ -140,6 +152,45 @@
       <array> 
         <dict>
           <key>begin</key>
+          <string>(^\s*)(\%asm)(\s*{{)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+            <key>2</key>
+            <dict>
+              <key>name</key>
+              <string>keyword.control.directive.prog8</string>
+            </dict>
+            <key>3</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#general__1</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(}})</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.prog8</string>
+            </dict>
+          </dict>
+        </dict>
+        <dict>
+          <key>begin</key>
           <string>(\{)</string>
           <key>beginCaptures</key>
           <dict>
@@ -153,7 +204,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#general__1</string>
+              <string>#general__2</string>
             </dict>
            </array>
           <key>end</key>
@@ -206,7 +257,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#general__3</string>
+              <string>#general__4</string>
             </dict>
            </array>
           <key>end</key>
@@ -246,6 +297,10 @@
         </dict>
         <dict>
           <key>include</key>
+          <string>#label</string>
+        </dict>
+        <dict>
+          <key>include</key>
           <string>#meta</string>
         </dict>
         <dict>
@@ -273,7 +328,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#general__4</string>
+              <string>#general__5</string>
             </dict>
            </array>
           <key>end</key>
@@ -288,10 +343,8 @@
           </dict>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(\b\w+\.)</string>
-          <key>name</key>
-          <string>entity.name.section.prog8</string>
+          <key>include</key>
+          <string>#section</string>
         </dict>
         <dict>
           <key>include</key>
@@ -305,17 +358,31 @@
       <array> 
         <dict>
           <key>include</key>
-          <string>#general</string>
+          <string>#assembler</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#comment</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#numeric</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#label</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#section</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#variable</string>
         </dict>
        </array>
     </dict>
     <key>general__2</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
-       </array>
-    </dict>
-    <key>general__3</key>
     <dict>
       <key>patterns</key>
       <array> 
@@ -325,7 +392,23 @@
         </dict>
        </array>
     </dict>
+    <key>general__3</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+       </array>
+    </dict>
     <key>general__4</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>include</key>
+          <string>#general</string>
+        </dict>
+       </array>
+    </dict>
+    <key>general__5</key>
     <dict>
       <key>patterns</key>
       <array> 
@@ -350,6 +433,18 @@
           <string>(\b(and|or)\b)</string>
           <key>name</key>
           <string>keyword.operator.prog8</string>
+        </dict>
+       </array>
+    </dict>
+    <key>label</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(^\s*\w+\:)</string>
+          <key>name</key>
+          <string>entity.name.label.prog8</string>
         </dict>
        </array>
     </dict>
@@ -434,6 +529,18 @@
           <string>(\&apos;.\&apos;)</string>
           <key>name</key>
           <string>constant.numeric.prog8</string>
+        </dict>
+       </array>
+    </dict>
+    <key>section</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\b\w+\.)</string>
+          <key>name</key>
+          <string>entity.name.section.prog8</string>
         </dict>
        </array>
     </dict>

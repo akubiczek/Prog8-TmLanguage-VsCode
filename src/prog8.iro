@@ -85,6 +85,13 @@ styles [] {
    pygments_scope        = String
 }
 
+.entity.name.label : style {
+   color                 = cyan
+   ace_scope             = text
+   textmate_scope        = entity.name.label
+   pygments_scope        = String
+}
+
 .entity.name.function : style {
    color                 = green
    ace_scope             = text
@@ -190,6 +197,21 @@ main : context {
 general : context {   
 
    : inline_push {
+      regex          \= (^\s*)(\%asm)(\s*{{)
+      styles []       = .punctuation, .keyword.control.directive, .punctuation;
+      : pop {
+         regex       \= (}})
+         styles []    = .punctuation;
+      }
+      : include "assembler" ;
+      : include "comment";
+      : include "numeric";
+      : include "label";
+      : include "section";
+      : include "variable";
+   } 
+
+   : inline_push {
       regex          \= (\{)
       styles []       = .punctuation;
       : pop {  
@@ -225,6 +247,7 @@ general : context {
    : include "storage";
    : include "constant";
    : include "support";
+   : include "label";
    : include "meta";
    
    : inline_push {
@@ -238,12 +261,22 @@ general : context {
       : include "general";
    }   
    
+   : include "section";
+   : include "variable";
+}
+
+section : context {
    : pattern {
       regex          \= (\b\w+\.)
       styles []       = .entity.name.section;
    }
-   
-   : include "variable";
+}
+
+label : context {
+   : pattern {
+      regex          \= (^\s*\w+\:)
+      styles []       = .entity.name.label;
+   }
 }
 
 comment : context {
@@ -303,6 +336,13 @@ meta : context {
    : pattern {
       regex          \= (^\s*)(%)([a-zA-Z]+)
       styles []       = .punctuation, .meta.directive, .keyword.control.directive;
+   }
+}
+
+assembler : context {
+   : pattern {
+      regex          \= (\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya|bra|brl|cop|jml|jsl|mvn|mvp|pea|pei|per|phb|phd|phk|phx|phy|plb|pld|plx|ply|rep|rtl|sep|stp|stz|tcd|tcs|tdc|trb|tsb|tsc|txy|tyx|wai|wdm|xba|xce|ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA|BRA|BRL|COP|JML|JSL|MVN|MVP|PEA|PEI|PER|PHB|PHD|PHK|PHX|PHY|PLB|PLD|PLX|PLY|REP|RTL|SEP|STP|STZ|TCD|TCS|TDC|TRB|TSB|TSC|TXY|TYX|WAI|WDM|XBA|XCE)\b)
+      styles []       = .support.function;
    }
 }
 

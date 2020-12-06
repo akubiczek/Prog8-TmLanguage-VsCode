@@ -39,6 +39,25 @@ contexts:
       captures:
         0: text.prog8
   general:
+    - match: '(^\s*)(\%asm)(\s*{{)'
+      captures:
+        0: punctuation.prog8
+        1: keyword.control.directive.prog8
+        2: punctuation.prog8
+      push: 
+        - match: '(}})'
+          pop: true
+          captures:
+            0: punctuation.prog8
+        - include: assembler
+        - include: comment
+        - include: numeric
+        - include: label
+        - include: section
+        - include: variable
+        - match: '(.)'
+          captures:
+            0: text.prog8
     - match: '(\{)'
       captures:
         0: punctuation.prog8
@@ -80,6 +99,7 @@ contexts:
     - include: storage
     - include: constant
     - include: support
+    - include: label
     - include: meta
     - match: '(\w+)(\s*)(\()'
       captures:
@@ -95,10 +115,22 @@ contexts:
         - match: '(.)'
           captures:
             0: text.prog8
+    - include: section
+    - include: variable
+    - match: '(.)'
+      captures:
+        0: text.prog8
+  section:
     - match: '(\b\w+\.)'
       captures:
         0: entity.name.section.prog8
-    - include: variable
+    - match: '(.)'
+      captures:
+        0: text.prog8
+  label:
+    - match: '(^\s*\w+\:)'
+      captures:
+        0: entity.name.label.prog8
     - match: '(.)'
       captures:
         0: text.prog8
@@ -156,6 +188,13 @@ contexts:
         0: punctuation.prog8
         1: meta.directive.prog8
         2: keyword.control.directive.prog8
+    - match: '(.)'
+      captures:
+        0: text.prog8
+  assembler:
+    - match: '(\b(adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya|bra|brl|cop|jml|jsl|mvn|mvp|pea|pei|per|phb|phd|phk|phx|phy|plb|pld|plx|ply|rep|rtl|sep|stp|stz|tcd|tcs|tdc|trb|tsb|tsc|txy|tyx|wai|wdm|xba|xce|ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA|BRA|BRL|COP|JML|JSL|MVN|MVP|PEA|PEI|PER|PHB|PHD|PHK|PHX|PHY|PLB|PLD|PLX|PLY|REP|RTL|SEP|STP|STZ|TCD|TCS|TDC|TRB|TSB|TSC|TXY|TYX|WAI|WDM|XBA|XCE)\b)'
+      captures:
+        0: support.function.prog8
     - match: '(.)'
       captures:
         0: text.prog8
