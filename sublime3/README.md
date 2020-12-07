@@ -2,9 +2,9 @@
 
 ## Installation
 
-1. Copy whole `Prog8` folder to `~/.config/sublime-text-3/Packages/`
+1. Copy the whole `Prog8` folder to `~/.config/sublime-text-3/Packages/`
 2. Restart Sublime
-3. Verify if there is a Prog8 syntax in a menu option `View -> Syntax`
+3. Verify if there is the Prog8 syntax in a menu option `View -> Syntax`
 
 ## Troubleshooting
 

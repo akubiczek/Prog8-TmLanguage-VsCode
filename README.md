@@ -1,4 +1,4 @@
-# prog8-lang syntax highlighting
+# Prog8 language syntax highlighting
 
 This is the syntax definition for Prog8 programming language. It enables syntax highlighting in editors like Visual Studio Code, Sublime, IntelliJ IDEA etc. 
 In addition to general syntax definition you can find here ready to use extensions for:
