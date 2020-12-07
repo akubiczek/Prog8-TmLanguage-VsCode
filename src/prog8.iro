@@ -43,6 +43,14 @@ styles [] {
    pygments_scope        = Comment
 }
 
+.punctuation.definition.comment : style {
+   color                 = green
+   italic                = true
+   ace_scope             = comment
+   textmate_scope        = punctuation.definition.comment
+   pygments_scope        = Comment
+}
+
 .keyword.control : style {
    color     = cyan
    ace_scope             = keyword
@@ -78,10 +86,10 @@ styles [] {
    pygments_scope        = Keyword
 }
 
-.entity.name.section : style {
+.entity.name.namespace : style {
    color                 = grey
    ace_scope             = text
-   textmate_scope        = entity.name.section
+   textmate_scope        = entity.name.namespace
    pygments_scope        = String
 }
 
@@ -99,10 +107,31 @@ styles [] {
    pygments_scope        = String
 }
 
-.numeric : style {
+.numeric.integer : style {
    color                 = gold
-   ace_scope             = constant.numeric
-   textmate_scope        = constant.numeric
+   ace_scope             = constant.numeric.integer
+   textmate_scope        = constant.numeric.integer
+   pygments_scope        = Number
+}
+
+.numeric.integer.binary : style {
+   color                 = gold
+   ace_scope             = constant.numeric.integer.binary
+   textmate_scope        = constant.numeric.integer.binary
+   pygments_scope        = Number
+}
+
+.numeric.integer.hexadecimal : style {
+   color                 = gold
+   ace_scope             = constant.numeric.integer.hexadecimal
+   textmate_scope        = constant.numeric.integer.hexadecimal
+   pygments_scope        = Number
+}
+
+.numeric.float : style {
+   color                 = gold
+   ace_scope             = constant.numeric.float
+   textmate_scope        = constant.numeric.float
    pygments_scope        = Number
 }
 
@@ -141,14 +170,6 @@ styles [] {
    pygments_scope        = String
 }
 
-.illegal : style {
-   color                 = white
-   background_color      = red
-   ace_scope             = invalid
-   textmate_scope        = invalid
-   pygments_scope        = Generic.Error
-}
-
 .support.function  : style {
    color                 = yellow
    ace_scope             = invalid
@@ -175,7 +196,7 @@ main : context {
 
    : inline_push {
       regex          \= (^\s*\w+\s*)(\{)
-      styles []       = .entity.name.section, .punctuation;
+      styles []       = .entity.name.namespace, .punctuation;
       : pop {  
          regex       \= (\})
          styles []    = .punctuation;
@@ -185,7 +206,7 @@ main : context {
    
    : inline_push {
       regex          \= (^\s*\w+\s*)(\$[\da-fA-F]+\s*)(\{)
-      styles []       = .entity.name.section, .numeric, .punctuation;
+      styles []       = .entity.name.namespace, .numeric.integer.hexadecimal, .punctuation;
       : pop {  
          regex       \= (\})
          styles []    = .punctuation;
@@ -268,7 +289,7 @@ general : context {
 section : context {
    : pattern {
       regex          \= (\b\w+\.)
-      styles []       = .entity.name.section;
+      styles []       = .entity.name.namespace;
    }
 }
 
@@ -281,8 +302,8 @@ label : context {
 
 comment : context {
    : pattern {
-      regex          \= (\;.+)
-      styles []       = .comment.line;
+      regex          \= (\;)(.+)
+      styles []       = .punctuation.definition.comment, .comment.line;
    }
 }
 
@@ -308,7 +329,7 @@ keywords : context {
 storage : context {
    
    : pattern {
-      regex          \= (\b(void|ubyte|byte|word|uword|float|str)\b)
+      regex          \= (\b(ubyte|byte|word|uword|float|str)\b)
       styles []       = .storage.type;
    }
    
@@ -320,7 +341,7 @@ storage : context {
 
 constant : context {
    : pattern {
-      regex          \= (true|false)
+      regex          \= (\btrue|false|void\b)
       styles []       = .constant.language;
    } 
 }
@@ -355,23 +376,23 @@ assembler : context {
 numeric : context {
    : pattern {
       regex          \= (\b\d+)
-      styles []       = .numeric;
+      styles []       = .numeric.integer;
    }
    : pattern {
       regex          \= (\-?\d+\.\d+e?\d+)
-      styles []       = .numeric;
+      styles []       = .numeric.float;
    }
    : pattern {
       regex          \= (\$[\da-fA-F]+)
-      styles []       = .numeric;
+      styles []       = .numeric.integer.hexadecimal;
    }
    : pattern {
       regex          \= (\%[0-1]+)
-      styles []       = .numeric;
+      styles []       = .numeric.integer.binary;
    }
    : pattern {
       regex          \= (\'.\')
-      styles []       = .numeric;
+      styles []       = .numeric.integer;
    }   
 }
 

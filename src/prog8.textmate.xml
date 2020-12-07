@@ -43,7 +43,7 @@
             <key>1</key>
             <dict>
               <key>name</key>
-              <string>entity.name.section.prog8</string>
+              <string>entity.name.namespace.prog8</string>
             </dict>
             <key>2</key>
             <dict>
@@ -77,12 +77,12 @@
             <key>1</key>
             <dict>
               <key>name</key>
-              <string>entity.name.section.prog8</string>
+              <string>entity.name.namespace.prog8</string>
             </dict>
             <key>2</key>
             <dict>
               <key>name</key>
-              <string>constant.numeric.prog8</string>
+              <string>constant.numeric.integer.hexadecimal.prog8</string>
             </dict>
             <key>3</key>
             <dict>
@@ -128,9 +128,20 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(\;.+)</string>
-          <key>name</key>
-          <string>comment.line.prog8</string>
+          <string>(\;)(.+)</string>
+          <key>captures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.definition.comment.prog8</string>
+            </dict>
+            <key>2</key>
+            <dict>
+              <key>name</key>
+              <string>comment.line.prog8</string>
+            </dict>
+          </dict>
         </dict>
        </array>
     </dict>
@@ -140,7 +151,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(true|false)</string>
+          <string>(\btrue|false|void\b)</string>
           <key>name</key>
           <string>constant.language.prog8</string>
         </dict>
@@ -504,31 +515,31 @@
           <key>match</key>
           <string>(\b\d+)</string>
           <key>name</key>
-          <string>constant.numeric.prog8</string>
+          <string>constant.numeric.integer.prog8</string>
         </dict>
         <dict>
           <key>match</key>
           <string>(\-?\d+\.\d+e?\d+)</string>
           <key>name</key>
-          <string>constant.numeric.prog8</string>
+          <string>constant.numeric.float.prog8</string>
         </dict>
         <dict>
           <key>match</key>
           <string>(\$[\da-fA-F]+)</string>
           <key>name</key>
-          <string>constant.numeric.prog8</string>
+          <string>constant.numeric.integer.hexadecimal.prog8</string>
         </dict>
         <dict>
           <key>match</key>
           <string>(\%[0-1]+)</string>
           <key>name</key>
-          <string>constant.numeric.prog8</string>
+          <string>constant.numeric.integer.binary.prog8</string>
         </dict>
         <dict>
           <key>match</key>
           <string>(\&apos;.\&apos;)</string>
           <key>name</key>
-          <string>constant.numeric.prog8</string>
+          <string>constant.numeric.integer.prog8</string>
         </dict>
        </array>
     </dict>
@@ -540,7 +551,7 @@
           <key>match</key>
           <string>(\b\w+\.)</string>
           <key>name</key>
-          <string>entity.name.section.prog8</string>
+          <string>entity.name.namespace.prog8</string>
         </dict>
        </array>
     </dict>
@@ -550,7 +561,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(\b(void|ubyte|byte|word|uword|float|str)\b)</string>
+          <string>(\b(ubyte|byte|word|uword|float|str)\b)</string>
           <key>name</key>
           <string>storage.type.prog8</string>
         </dict>
