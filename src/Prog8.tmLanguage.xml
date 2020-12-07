@@ -134,7 +134,7 @@
             <key>1</key>
             <dict>
               <key>name</key>
-              <string>punctuation.definition.comment.prog8</string>
+              <string>comment.line.prog8</string>
             </dict>
             <key>2</key>
             <dict>

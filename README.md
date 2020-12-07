@@ -1,19 +1,28 @@
 # prog8-lang syntax highlighting
 
-This is an Visual Studio Code extension to enable syntax highlighting for Prog8 language.
+This is the syntax definition for Prog8 programming language. It enables syntax highlighting in editors like Visual Studio Code, Sublime, IntelliJ IDEA etc. 
+In addition to general syntax definition you can find here ready to use extensions for:
 
-This is also a generic textmate syntax highlighting to use in other IDEs.
+1. Visual Studio Code
+2. Sublime 3
 
-The grammar file may be far from being perfect - your contribution is warmly welcome.
+The project is still far from being perfect - your contribution is warmly welcome.
 
-## Workflow
+## Contribution workflow
 
-1. Open `src/prog8.iro` in https://eeyo.io/iro/
-2. Edit & export to Textmate XML file `src/prog8.textmate.xml`
-3. Convert Textmate XML to Textmate JSON `syntaxes/prog8.tmLanguage.json` (you can use `TextMate Languages` extension for VSC)
+Syntax definition is made using the Iro tool https://eeyo.io/iro/documentation/ using Rion Object Notation. This format is very easy to understand, develop and maintain. The source file is `src/Prog8.iro`.
 
-## Install in Visual Studio Code
+### Step 1 - upgrade general syntax definitions
 
-1. Make a new folder in VSC `./extensions/` and name it `prog8`
-2. Copy `package.json`, `language-configuration.json` and `syntaxes/` folder into the new `prog8` folder
-3. Restart Visual Studio Code
+1. Open `./src/Prog8.iro` in https://eeyo.io/iro/
+2. Edit, test and save `./src/Prog8.iro` file
+3. For the Iro tool export to Textmate XML file and save as `./src/Prog8.tmLanguage.xml`
+
+### Step 2 - prepare Visual Studio Code extension
+
+1. Convert Textmate XML to Textmate JSON and save it as `./visualstudiocode/Prog8/syntaxes/Prog8.tmLanguage.json` (you can use `TextMate Languages` Visual Studio Code extension to convert)
+2. Could you manualy replace `"name": "prog8",` with `"name": "Prog8",` in the `Prog8.tmLanguage.json` please? :)
+
+### Step 3 - prepare Sublime 3 extension
+
+1. Copy `./src/Prog8.tmLanguage.xml` to `./sublime3/Prog8/support/Prog8.tmLanguage` (without .xml file name extension!)

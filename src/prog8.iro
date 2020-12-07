@@ -20,7 +20,7 @@
 ##
 ################################################################
 
-name                   = prog8
+name                   = Prog8
 file_extensions []     = p8, prog8;
 
 ################################################################
@@ -47,7 +47,7 @@ styles [] {
    color                 = green
    italic                = true
    ace_scope             = comment
-   textmate_scope        = punctuation.definition.comment
+   textmate_scope        = comment.line
    pygments_scope        = Comment
 }
 
