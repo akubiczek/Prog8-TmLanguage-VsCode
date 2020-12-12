@@ -1,22 +1,26 @@
 # Prog8 language syntax highlighting
 
-This is the syntax definition for Prog8 programming language. It enables syntax highlighting in editors like Visual Studio Code, Sublime, IntelliJ IDEA etc. 
-In addition to general syntax definition you can find here ready to use extensions for:
+This project is a syntax definition for the Prog8 programming language. It enables syntax highlighting in editors like Visual Studio Code, Sublime, IntelliJ IDEA, etc. 
+In addition to general syntax definition, you can find here ready to use extensions for:
 
 1. Visual Studio Code
 2. Sublime 3
 
-The project is still far from being perfect - your contribution is warmly welcome.
+The project is still far from being perfect - your contribution is warmly welcomed.
+
+## Extension installation
+
+Instructions on installing extensions are in a respective extension's folder.
 
 ## Contribution workflow
 
-Syntax definition is made using the Iro tool https://eeyo.io/iro/documentation/ using Rion Object Notation. This format is very easy to understand, develop and maintain. The source file is `src/Prog8.iro`.
+Syntax definition is made using the Iro tool https://eeyo.io/iro/documentation/ using Rion Object Notation. This format is straightforward to understand, develop, and maintain. The source file is `src/Prog8.iro`.
 
 ### Step 1 - upgrade general syntax definitions
 
 1. Open `./src/Prog8.iro` in https://eeyo.io/iro/
-2. Edit, test and save `./src/Prog8.iro` file
-3. For the Iro tool export to Textmate XML file and save as `./src/Prog8.tmLanguage.xml`
+2. Edit, test, and save `./src/Prog8.iro` file
+3. From the Iro tool, export to Textmate XML file and save as `./src/Prog8.tmLanguage.xml`
 
 ### Step 2 - prepare Visual Studio Code extension
 
